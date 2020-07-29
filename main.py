@@ -1,25 +1,39 @@
 from tkinter import *
+from tkinter.ttk import Combobox
 from datetime import datetime
 import json
+import os
+import DataBase
 class Read():
-    def __init__():
+    def __init__(self):
         #Window
-        global window_creater
+        global window_reader
         window_reader = Tk()
-        window_reader.title("Создать пароль")  
-        window_reader.geometry('450x200')
+        window_reader.title("Найти пароль")  
+        window_reader.geometry('800x250')
         window_reader.resizable(width=False, height=False)
 
         #Combobox
 
-        fontExample = ("Courier", 16, "bold")
+        fontExample = ("Courier", 9, "bold")
 
-        combo = Combobox(window, font = fontExample)  
-        combo['values'] = ("Секунду")  
-        combo.current(1)  # установите вариант по умолчанию  
-        combo.pack(x=100, y = 100)
+        combo = Combobox(window_reader, font = fontExample, state = "readonly", width = 111)  
+        combo['values'] = ("Секунду","Ненайдено")  
+        combo.current(0)  # установите вариант по умолчанию  
+        combo.pack()
+        combo.place(x = 0,y = 0)
+        values = []
+        data_of_mod = []
+        database = DataBase.DataBase(f'{os.path.dirname(os.path.abspath(__file__))}\\data.json')
+        data = database.get()
+        for elements in data:
+            values += [elements]
 
-
+        combo['values'] = tuple(values)
+        combo.current(0)  # установите вариант по умолчанию  
+        combo.pack()
+        combo.place(x = 0,y = 0)
+        window_reader.mainloop()
 class Create():
     def __init__(self):
         #Window
@@ -77,24 +91,40 @@ class Create():
         Service = self.Servise_entry.get()
         Password = self.Password_entry.get()
 
-        with open('settings.json') as f:
-            old_data = json.load(f)
+        times = datetime.now()
+        day = times.day
+        hour = times.hour
+        minute = times.minute
+        year = times.year
+        month = times.month
 
+        mod_time = f"{year}/{month}/{day}/{hour}/{minute}"
+        if len(str(minute)) < 2:
+            minute = f"0{minute}"
+
+        if len(str(hour)) < 2:
+            hour = f"0{hour}"
+
+        database = DataBase.DataBase(f"{os.path.dirname(os.path.abspath(__file__))}\\data.json")
+        old_data = database.get()
+        max_num = 0
+        for element in old_data:
+            number = element["id"]
+            if int(number) > max_num:
+                max_num = number
+        id_of_password = max_num + 1
         data_new = {
         'service':f"{Service}",
         'email':f"{Email}",
-        'password':f"{Password}"
+        'password':f"{Password}",
+        'data_of_mod':f"{mod_time}",
+        'id':f"{id_of_password}"
         }
 
         old_data += [data_new]
         data = old_data
-
-        f = open("settings.json",'w')
-        json.dump(data,f)
-        f.close()
-        
+        database.write(data)
         window_creater.destroy()
-
     def cancel(self):
         window_creater.destroy()  
 class hello_Window():
@@ -154,7 +184,7 @@ class hello_Window():
         pass
 
     def see(self):
-        pass
+        Read()
 
     def updates(self):
         global window
