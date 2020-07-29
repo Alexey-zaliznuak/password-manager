@@ -10,7 +10,9 @@ class DataBase():
             json.dump(data,f)
     def update(self, el_id, new_element = None):
         data = self.get()
-        data[el_id] = new_element
+        for element in data:
+            if element["id"] == int(el_id):
+                data[element] = new_element
         self.write(data)
     def delete(self, el_id):
         data = self.get()
