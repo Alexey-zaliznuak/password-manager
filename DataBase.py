@@ -18,5 +18,5 @@ class DataBase():
         data = self.get()
         for index,string in enumerate(data):
             if string["id"] == el_id:
-                del d[index]
+                del data[index]
         self.write(data)
