@@ -4,6 +4,11 @@ from datetime import datetime
 import json
 import os
 import DataBase
+def check_data():
+    full_path = f'{os.path.dirname(os.path.abspath(__file__))}\\data.json'
+    if not os.path.isfile(full_path):
+        with open(full_path,'w') as f:
+            f.write("[]")
 class Read():
     def __init__(self):
         #Window
@@ -200,4 +205,5 @@ class hello_Window():
 
         #self.hello_label.config(text=f"{hour}:{minute}")
         window.after(1000, self.updates)
+start = check_data()
 start = hello_Window()

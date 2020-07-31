@@ -7,7 +7,7 @@ class DataBase():
             return json.load(f)
     def write(self,data):
         with open(f'{self.full_path}','w') as f:
-            json.dump(data,f)
+            json.dump(data,f,indent=4)
     def update(self, el_id, new_element = None):
         data = self.get()
         for element in data:
@@ -16,7 +16,7 @@ class DataBase():
         self.write(data)
     def delete(self, el_id):
         data = self.get()
-        for element in data:
-            if element["id"] == int(el_id):
-                data[element].pop()
+        for index,string in enumerate(data):
+            if string["id"] == el_id:
+                del d[index]
         self.write(data)
