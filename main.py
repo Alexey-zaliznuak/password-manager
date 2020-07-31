@@ -110,12 +110,10 @@ class Create():
 
         database = DataBase.DataBase(f"{os.path.dirname(os.path.abspath(__file__))}\\data.json")
         old_data = database.get()
-        max_num = 0
-        for element in old_data:
-            number = element["id"]
-            if int(number) > max_num:
-                max_num = number
-        id_of_password = max_num + 1
+
+        max_element = max(old_data, default={'id': 0}, key=lambda element: int(element['id']))
+        max_id = int(max_element['id'])
+        id_of_password = max_id + 1
         data_new = {
             'service':f"{Service}",
             'email':f"{Email}",
