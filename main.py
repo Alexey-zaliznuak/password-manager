@@ -1,8 +1,5 @@
 from tkinter import *
 from tkinter.ttk import Combobox
-from datetime import datetime
-import json
-import os
 import DataBase
 
 class Read():
@@ -94,37 +91,8 @@ class Create():
         Service = self.Servise_entry.get()
         Password = self.Password_entry.get()
 
-        times = datetime.now()
-        day = times.day
-        hour = times.hour
-        minute = times.minute
-        year = times.year
-        month = times.month
-
-        mod_time = f"{year}/{month}/{day}/{hour}/{minute}"
-        if len(str(minute)) < 2:
-            minute = f"0{minute}"
-
-        if len(str(hour)) < 2:
-            hour = f"0{hour}"
-
         database = DataBase.DataBase(f"{os.path.dirname(os.path.abspath(__file__))}\\data.json")
-        old_data = database.get()
-
-        max_element = max(old_data, default={'id': 0}, key=lambda element: int(element['id']))
-        max_id = int(max_element['id'])
-        id_of_password = max_id + 1
-        data_new = {
-            'service':f"{Service}",
-            'email':f"{Email}",
-            'password':f"{Password}",
-            'data_of_mod':f"{mod_time}",
-            'id':f"{id_of_password}"
-        }
-
-        old_data += [data_new]
-        data = old_data
-        database.write(data)
+        database.create(Service, Email, Password)
         window_creater.destroy()
 
     def cancel(self):
