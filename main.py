@@ -4,11 +4,7 @@ from datetime import datetime
 import json
 import os
 import DataBase
-def check_data():
-    full_path = f'{os.path.dirname(os.path.abspath(__file__))}\\data.json'
-    if not os.path.isfile(full_path):
-        with open(full_path,'w') as f:
-            f.write("[]")
+
 class Read():
     def __init__(self):
         #Window
@@ -39,6 +35,8 @@ class Read():
         combo.pack()
         combo.place(x = 0,y = 0)
         window_reader.mainloop()
+
+
 class Create():
     def __init__(self):
         #Window
@@ -112,26 +110,27 @@ class Create():
 
         database = DataBase.DataBase(f"{os.path.dirname(os.path.abspath(__file__))}\\data.json")
         old_data = database.get()
-        max_num = 0
-        for element in old_data:
-            number = element["id"]
-            if int(number) > max_num:
-                max_num = number
-        id_of_password = max_num + 1
+
+        max_element = max(old_data, default={'id': 0}, key=lambda element: int(element['id']))
+        max_id = int(max_element['id'])
+        id_of_password = max_id + 1
         data_new = {
-        'service':f"{Service}",
-        'email':f"{Email}",
-        'password':f"{Password}",
-        'data_of_mod':f"{mod_time}",
-        'id':f"{id_of_password}"
+            'service':f"{Service}",
+            'email':f"{Email}",
+            'password':f"{Password}",
+            'data_of_mod':f"{mod_time}",
+            'id':f"{id_of_password}"
         }
 
         old_data += [data_new]
         data = old_data
         database.write(data)
         window_creater.destroy()
+
     def cancel(self):
-        window_creater.destroy()  
+        window_creater.destroy() 
+
+
 class hello_Window():
     def __init__(self):
         global window, Create
@@ -205,5 +204,5 @@ class hello_Window():
 
         #self.hello_label.config(text=f"{hour}:{minute}")
         window.after(1000, self.updates)
-start = check_data()
+
 start = hello_Window()
