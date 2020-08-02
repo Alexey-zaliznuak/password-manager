@@ -32,8 +32,6 @@ class Read():
         combo.pack()
         combo.place(x = 0,y = 0)
         window_reader.mainloop()
-
-
 class Create():
     def __init__(self):
         #Window
@@ -97,8 +95,6 @@ class Create():
 
     def cancel(self):
         window_creater.destroy() 
-
-
 class hello_Window():
     def __init__(self):
         global window, Create
@@ -126,27 +122,6 @@ class hello_Window():
         #google{"email":'qwertyuiop',"password":'qwertyuiop', "date_of_create":"data hz but data"}
         #}
 
-
-
-        times = datetime.now()
-        day = times.day
-        hour = times.hour
-        minute = times.minute
-
-        if len(str(minute)) < 2:
-            minute = f"0{minute}"
-
-        if len(str(hour)) < 2:
-            hour = f"0{hour}"
-
-        weather = ""
-
-        self.hello_label = hello_label = Label(window, text=f"{hour}:{minute}", font="Times 20", fg="grey")  
-        hello_label.pack()
-        hello_label.place(x=0, y=0)
-
-        self.updates()
-        
         window.mainloop()
 
     def create(self):    
@@ -157,20 +132,4 @@ class hello_Window():
 
     def see(self):
         Read()
-
-    def updates(self):
-        global window
-        times = datetime.now()
-        hour = times.hour
-        minute = times.minute
-
-        if len(str(minute)) < 2:
-            minute = f"0{minute}"
-
-        if len(str(hour)) < 2:
-            hour = f"0{hour}"
-
-        #self.hello_label.config(text=f"{hour}:{minute}")
-        window.after(1000, self.updates)
-
 start = hello_Window()

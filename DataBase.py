@@ -42,8 +42,8 @@ class DataBase():
             'service':f"{service}",
             'email':f"{email}",
             'password':f"{password}",
-            'data_of_mod':f"{current_time}",
-            'data_of_create':f"{current_time}",
+            'data_of_mod':f"{current_time()}",
+            'data_of_create':f"{current_time()}",
             'id':f"{id_of_password}"
         }
         
