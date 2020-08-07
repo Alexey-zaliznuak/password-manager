@@ -32,7 +32,7 @@ def create_account():
 
     return jsonify({'account': account}), 201
 
-@app.route('/api/accounts/update/<int:id>', methods=['PUT'])
+@app.route('/api/accounts/<int:id>', methods=['PUT'])
 def update_account(id):
     if not request.json:
         abort(400)
@@ -50,7 +50,7 @@ def update_account(id):
 
     accounts_db.update(account)
 
-@app.route('/api/accounts/delete/<int:id>', methods=['DELETE'])
+@app.route('/api/accounts/<int:id>', methods=['DELETE'])
 def delete_account(ac_id):
     accounts_db.delete(ac_id)
     
