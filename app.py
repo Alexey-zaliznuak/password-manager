@@ -3,7 +3,8 @@ from DataBase import DataBase # Наш класс базы данных
 import os
 app = Flask(__name__)
 full_path = f"{os.path.dirname(os.path.abspath(__file__))}"
-accounts_db = DataBase(f'{full_path}/data/accounts.json')
+accounts_db = DataBase_account(f'{full_path}/data/accounts.json')
+users_db = DataBase_account(f'{full_path}/data/users.json')
 
 @app.route("/api/accounts", methods=['GET'])
 def get_accounts():
@@ -31,7 +32,7 @@ def create_account():
 
     return jsonify({'account': account}), 201
 
-@app.route('/api/accounts/<int:id>', methods=['PUT'])
+@app.route('/api/accounts/update/<int:id>', methods=['PUT'])
 def update_account(id):
     if not request.json:
         abort(400)
@@ -49,7 +50,7 @@ def update_account(id):
 
     accounts_db.update(account)
 
-@app.route('/api/accounts/<int:id>', methods=['DELETE'])
+@app.route('/api/accounts/delete/<int:id>', methods=['DELETE'])
 def delete_account(ac_id):
     accounts_db.delete(ac_id)
     
