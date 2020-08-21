@@ -1,10 +1,10 @@
 from flask import Flask, jsonify, request
-from DataBase import DataBase # Наш класс базы данных
+from DataBase import * # Наш класс базы данных
 import os
 app = Flask(__name__)
 full_path = f"{os.path.dirname(os.path.abspath(__file__))}"
 accounts_db = DataBase_account(f'{full_path}/data/accounts.json')
-users_db = DataBase_account(f'{full_path}/data/users.json')
+users_db = DataBase_users(f'{full_path}/data/users.json')
 
 @app.route("/api/accounts", methods=['GET'])
 def get_accounts():
@@ -53,6 +53,28 @@ def update_account(id):
 @app.route('/api/accounts/<int:id>', methods=['DELETE'])
 def delete_account(ac_id):
     accounts_db.delete(ac_id)
-    
+
+@app.route('/api/users', methods=['POST'])
+def create_user():
+    if not request.json:
+        abort(400)
+
+    for key in ('username', 'email', 'password'): 
+        if key not in request.json:
+            abort(400)
+
+
+    account = {
+        'username': request.json['username'],
+        'email': request.json['email'],
+        'password': request.json['password'],
+
+    }
+
+    # метод create возвращает аккаунт со всеми полями 
+    # в их числе id и дата создания записи
+    account = users_db.create(account["username"],account["email"],account["password"])
+    return "Sucessfully"
+
 if __name__ == '__main__':
     app.run()
