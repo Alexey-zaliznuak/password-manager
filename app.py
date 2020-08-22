@@ -1,10 +1,16 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 from DataBase import * # Наш класс базы данных
 import os
 app = Flask(__name__)
 full_path = f"{os.path.dirname(os.path.abspath(__file__))}"
 accounts_db = DataBase_account(f'{full_path}/data/accounts.json')
 users_db = DataBase_users(f'{full_path}/data/users.json')
+#https://avdosev.github.io/python_school/projects/password_manager/4_step.html
+
+@app.route('/')
+def page_all_accounts():
+    accounts = accounts_db.get_all()
+    return render_template('first.html', accounts=accounts)
 
 @app.route("/api/accounts", methods=['GET'])
 def get_accounts():
