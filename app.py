@@ -9,7 +9,7 @@ users_db = DataBase_users(f'{full_path}/data/users.json')
 
 @app.route('/')
 def page_all_accounts():
-    accounts = accounts_db.get_all()
+    accounts = accounts_db.get()
     return render_template('first.html', accounts=accounts)
 
 @app.route("/api/accounts", methods=['GET'])
