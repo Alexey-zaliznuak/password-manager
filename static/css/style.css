@@ -40,12 +40,17 @@ html {
 .icon {
     width: 20px;
     height: 20px;
+    content: url(./static/svg/view.svg);
 }
 
 .view-icon {
-    content: url(./view.svg);
+    content: url(./static/svg/view.svg);
+    width: 150;
+    height: 100;
 }
 
 .no-view-icon {
-    content: url(./no-view.svg);
+    content: url(./static/svg/no-view.svg);
+    width: 150;
+    height: 100;
 }

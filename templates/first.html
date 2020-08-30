@@ -3,18 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-
     <script src="/static/js/script.js" defer></script>
-    <style src="/static/css/style.css"></style>
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
     <main>
-        (% for account in accounts %)
+        {% for account in accounts %}
         <div class="account_card">
-            <div class="account_card_service">((account.service))</div>
-            <div class="account_card_email">((account.email))</div>
-            <div class="account_card_password">((account.password))</div>
+            <div class="account_card_service">{{account.service}}</div>
+            <div class="account_card_email">{{account.email}}</div>
+            <div class="account_card_password">{{account.password}} <img class="view-icon icon" > </div>
         </div>
-        (% endfor %)
+        {% endfor %}
     </main>
 </body>
