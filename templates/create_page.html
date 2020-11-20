@@ -1,0 +1,23 @@
+<!doctype html >
+<html lang="ru-RU"> 
+    <head>
+        <title>main</title>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" type = "text/css" href="/static/css/create_page.css">
+        <script src="/static/js/create_page.js" defer></script>
+    </head>
+<body>
+    <div class = "create_field" id = {{UID}}>
+        <p><big>Введите имя сервиса:</big>
+            <input type="text" class = "service_input" width = "217px"></p>
+
+        <p><big>Введите email:</big>
+            <input type="email" class = "email_input" width = "274px"></p>
+
+        <p><big>Введите пароль:</big>
+            <input type="password" class = "password_input" width="259px"></p>
+        <p><big>Введите пароль повторно:</big>
+            <input type="password" class = "password_double_input" width="180px"></p>
+    <a href = "/main?UID={{UID}}"><input type="button" value="Создать" class = "create_button" height="20"></a>
+    </div>
+</body>

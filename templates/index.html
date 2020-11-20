@@ -1,0 +1,27 @@
+<!doctype html >
+<html lang="ru-RU"> 
+    <head>
+        <title>main</title>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" type = "text/css" href="/static/css/style.css">
+        <script src="/static/js/script.js" defer></script>
+    </head>
+<body>
+    <a href = "/create?UID={{pack_data[0]["UID"]}}"><div class="create_card">Создать аккаунт</div></a>
+    <div class = "found_card search"><input class = "search" type="text" width="200px"> <input type="button" value = "Искать" class="found_button search"></div>
+    <div class = "menu_variant style_toogle" title = "Изменить компановку"><big><img class="style_toogle" src="/static/images/style-toggle.png" title = "Изменить компановку"></big></div>
+    <p></p>
+    <div class = "account_card_container"> 
+        {% for data in pack_data %}
+            <a href = "/details?data={{data}}">
+                <div class = "account_card card_data card_with_padding">
+                    <div class="account_card_service card_data">{{data["service"]}}</div>
+                    <div class="account_card_email card_data">{{data["email"]}}</div>
+                    <div class="account_card_password secret-text card_data">
+                        <div class = "card_data password_data">{{data["password"]}}</div></a>
+                        <img class="no-view-icon icon icon_with_padding">
+                    </div>
+                </div>     
+        {% endfor %}
+    </div>
+</body>

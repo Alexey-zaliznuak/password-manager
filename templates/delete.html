@@ -1,0 +1,14 @@
+<!doctype html >
+<html lang="ru-RU"> 
+    <head>
+        <title>delete</title>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" type = "text/css" href="/static/css/delete.css">
+        <script src="/static/js/delete.js" defer></script>
+    </head>
+<body>
+    <div id = "{{user_id}}" class = "title-text">Нажмите "продолжить" чтобы удалить аккаунт:
+        <a href = ""><input type = "button" class = "delete" value = "Продолжить" id = "{{account_id}}"></a>
+        <a href = "/main?UID={{user_id}}"><input type = "button" class = "return" value = "Отмена"></a>
+    </div>
+</body> 

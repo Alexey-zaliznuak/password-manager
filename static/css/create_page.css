@@ -1,0 +1,36 @@
+:root {
+    --background-color: #f6f8fa;
+    --card-color: white;
+    --card-border-color: #e1e4e8;
+}
+
+html{
+    background-color: var(--background-color);
+}
+
+.create_field {
+    border-radius: 10px;
+    border-color: var(--card-border-color);
+    background-color: var(--card-color);
+    border-width: 1px;
+    border-style: solid;
+    padding: 10px;
+    margin: 0 10px;
+    display: inline-block;
+}
+
+.service_input {
+    width: 217px;
+}
+
+.email_input {
+    width: 274px;
+}
+
+.password_input {
+    width: 259px;
+}
+
+.password_double_input {
+    width: 180px;
+}

@@ -1,86 +1,92 @@
-from flask import Flask, jsonify, request, render_template
-from DataBase import * # Наш класс базы данных
+from flask import *
+from DataStorage import *
 import os
+from time import sleep
 app = Flask(__name__)
-full_path = f"{os.path.dirname(os.path.abspath(__file__))}"
-accounts_db = DataBase_account(f'{full_path}/data/accounts.json')
-users_db = DataBase_users(f'{full_path}/data/users.json')
-#https://avdosev.github.io/python_school/projects/password_manager/4_step.html
 
-@app.route('/')
-def page_all_accounts():
-    accounts = accounts_db.get()
-    return render_template('first.html', accounts=accounts)
+global account_data,account_manager
+account_manager = JsonStorage("./static/_data/data.json")
+account_data = account_manager.get()
 
-@app.route("/api/accounts", methods=['GET'])
-def get_accounts():
-    return jsonify({'accounts': accounts_db.get()})
+@app.after_request
+def add_header(response):
+    response.headers['X-UA-Compatible'] = 'IE=Edge,chrome=1'
+    response.headers['Cache-Control'] = 'public, max-age=0'
+    return response
 
-@app.route('/api/accounts', methods=['POST'])
+@app.route("/main")
+def main():
+    global account_data,account_manager
+    account_manager = JsonStorage("./static/_data/data.json")
+    account_data = account_manager.get()
+
+    UID = int(request.args['UID'])
+    if len(account_data) <=  UID:
+        print("new_account")
+        account_manager.create("new_email", "service_name", "0000000", UID)
+
+    try:
+        account_manager = JsonStorage("./static/_data/data.json")
+        account_data = account_manager.get()
+
+        data = found_account_UID(account_data, UID)
+        return render_template("index.html", pack_data = account_data[UID])
+    except:
+        pass
+@app.route("/details", methods = ["GET"])
+def details():
+    data = request.args['data'] 
+    data.replace("'", '"')
+    data = format_request_data(data)
+    return render_template("password_see.html", data = data)
+
+@app.route("/create", methods = ["GET"])
+def create_page():
+    user_id = request.args['UID'] 
+    return render_template("create_page.html", UID = user_id)
+
+@app.route("/create_account", methods = ["POST"])
 def create_account():
-    if not request.json:
-        abort(400)
+    user_id = request.args['UID'] 
+    service = request.args['service'] 
+    passsword = request.args['password'] 
+    email = request.args['email'] 
 
-    for key in ('service', 'email', 'password'): 
-        if key not in request.json:
-            abort(400)
+    account_manager = JsonStorage("./static/_data/data.json")
+    account_manager.create(email, service, passsword, user_id)
+    print(email, service, passsword, user_id)
+    return "Создание аккаунта - успешно"
 
+@app.route("/del", methods = ["GET"])
+def delete_correction():
+    print(request)
+    account_id = request.args['id'] 
+    user_id = request.args['UID'] 
+    
+    return render_template("delete.html",account_id=account_id,user_id=user_id)
 
-    account = {
-        'service': request.json['service'],
-        'email': request.json['email'],
-        'password': request.json['password'],
-    }
+@app.route("/del_account", methods = ["GET"])
+def delete_account():
+    account_id = request.args['id'] 
+    user_id = request.args['UID'] 
+    account_manager = JsonStorage("./static/_data/data.json")
+    account_manager.delete(int(user_id),int(account_id))
+    print(int(user_id),int(account_id))
+    return "succesful"
 
-    # метод create возвращает аккаунт со всеми полями 
-    # в их числе id и дата создания записи
-    account = accounts_db.create(account["service"],account["email"],account["password"])
+def found_account_UID(data, UID):
+    for index, string in enumerate(data):
+        if string[0]["UID"] == UID:
+            return data[index]
+            break
+        else:
+            print(string[0]["UID"])
+    else:
+        print("WARNING")
+        account_manager.create("new_email", "service_name", "0000000", UID)
+        for index, string in enumerate(data):
+            if string[0]["UID"] == UID:
+                return data[index]
 
-    return jsonify({'account': account}), 201
-
-@app.route('/api/accounts/<int:id>', methods=['PUT'])
-def update_account(id):
-    if not request.json:
-        abort(400)
-
-    for key in ('service', 'email', 'password'): 
-        if key not in request.json:
-            abort(400)
-
-
-    account = {
-        'service': request.json['service'],
-        'email': request.json['email'],
-        'password': request.json['password'],
-    }
-
-    accounts_db.update(account)
-
-@app.route('/api/accounts/<int:id>', methods=['DELETE'])
-def delete_account(ac_id):
-    accounts_db.delete(ac_id)
-
-@app.route('/api/users', methods=['POST'])
-def create_user():
-    if not request.json:
-        abort(400)
-
-    for key in ('username', 'email', 'password'): 
-        if key not in request.json:
-            abort(400)
-
-
-    account = {
-        'username': request.json['username'],
-        'email': request.json['email'],
-        'password': request.json['password'],
-
-    }
-
-    # метод create возвращает аккаунт со всеми полями 
-    # в их числе id и дата создания записи
-    account = users_db.create(account["username"],account["email"],account["password"])
-    return "Sucessfully"
-
-if __name__ == '__main__':
-    app.run()
+if __name__ == "__main__":
+    app.run(debug = True)
