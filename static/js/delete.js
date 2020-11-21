@@ -10,6 +10,7 @@ document.addEventListener('click', event => {
 
         request.open("GET", `/del_account?id=${_id}&UID=${UID}`)
         request.send();
+        alert("Успешно")
         
         document.body.children[0].children[0].href = `/main?UID=${UID}`
 

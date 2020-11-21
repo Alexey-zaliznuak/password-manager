@@ -13,7 +13,7 @@
     <p></p>
     <div class = "account_card_container"> 
         {% for data in pack_data %}
-            <a href = "/details?data={{data}}">
+            <a href = "/details?service={{data["service"]}}&email={{data["email"]}}&password={{data["password"]}}&id={{data["id"]}}&date_changes={{data["date_changes"]}}&UID={{data["UID"]}}">
                 <div class = "account_card card_data card_with_padding">
                     <div class="account_card_service card_data">{{data["service"]}}</div>
                     <div class="account_card_email card_data">{{data["email"]}}</div>
