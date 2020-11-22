@@ -1,0 +1,30 @@
+:root {
+    --background-color: #f6f8fa;
+    --card-color: white;
+    --card-border-color: #e1e4e8;
+}
+
+html{
+    background-color: var(--background-color);
+}
+
+
+.login_field {
+    align-items: center;
+    border-radius: 10px;
+    border-color: var(--card-border-color);
+    background-color: var(--card-color);
+    border-width: 1px;
+    border-style: solid;
+    padding: 10px;
+    width: 500px;
+    margin: 0 auto;
+}
+
+.name {
+    width: 223px;
+}
+
+.password {
+    width: 201px;
+}

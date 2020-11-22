@@ -11,7 +11,7 @@ import os
 
 #1)see    +
 #2)detail +
-#3)delete -
+#3)delete +
 #4)caugth -
 #5)create +
 class JsonStorage():
@@ -48,7 +48,7 @@ class JsonStorage():
                     break
                     
         if not complete:
-            print("вариант 2", new_element)
+            print("вариант 2")
             old_data.append([new_element])
             print(old_data)
         self.write(old_data)
@@ -72,12 +72,10 @@ class JsonStorage():
         min_id = 0
         for index, string in enumerate(data):
             for element in string:
+                #print(element)
                 if int(element["id"]) >= int(min_id):
                     min_id = int(element["id"]) + 1
-            return min_id 
-            break
-        else:
-            return 0
+        return min_id 
 
     def current_time(self):
         times = datetime.now()
@@ -110,3 +108,5 @@ class JsonStorage():
                 else:
                     print(int(string_data["id"]),int(f_id))
         self.write(data) 
+#ac = JsonStorage("./static/_data/data.json")
+#ac.create("zaliznuak_new","goooooooogle", "qwertyuio", 3)

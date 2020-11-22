@@ -1,0 +1,22 @@
+[
+    {
+        "name": "Nikita-Avdosev",
+        "password": "nikita1234",
+        "UID": 2
+    },
+    {
+        "name": "Alexey-zaliznuak",
+        "password": "alex1234",
+        "UID": 3
+    },
+    {
+        "name": "alexey",
+        "password": "qwertyuiop",
+        "UID": 4
+    },
+    {
+        "name": "zabira",
+        "password": "z1234",
+        "UID": 5
+    }
+]

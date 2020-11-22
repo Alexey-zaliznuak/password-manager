@@ -1,18 +1,27 @@
 from flask import *
 from DataStorage import *
+from UserStorage import *
 import os
 from time import sleep
 app = Flask(__name__)
 
-global account_data,account_manager
+global account_data, account_manager
 account_manager = JsonStorage("./static/_data/data.json")
 account_data = account_manager.get()
+
+global users_data, users_manager
+users_manager = UserStorage("./static/_data/users.json")
+users_data = users_manager.get()
 
 @app.after_request
 def add_header(response):
     response.headers['X-UA-Compatible'] = 'IE=Edge,chrome=1'
     response.headers['Cache-Control'] = 'public, max-age=0'
     return response
+
+@app.route("/")
+def index():
+    return render_template("login.html")
 
 @app.route("/main")
 def main():
@@ -21,17 +30,17 @@ def main():
     account_data = account_manager.get()
 
     UID = int(request.args['UID'])
-    if len(account_data) <=  UID:
-        print("new_account")
-        account_manager.create("new_email", "service_name", "0000000", UID)
-
-    
-    account_manager = JsonStorage("./static/_data/data.json")
-    account_data = account_manager.get()
-
     data = found_account_UID(account_data, UID)
-    print(data)
+    #print(data)
     return render_template("index.html", pack_data = data)
+
+@app.route("/get_user_UID", methods = ["GET"])
+def get_UID():
+    name = request.args["name"]
+    password = request.args["password"]
+    UID = users_manager.return_UID(name, password)
+    
+    return str(UID)
 
 @app.route("/details", methods = ["GET"])
 def details():
@@ -87,8 +96,6 @@ def found_account_UID(data, UID):
         if string[0]["UID"] == UID:
             return data[index]
             break
-        else:
-            print(string[0]["UID"])
     else:
         print("WARNING")
         account_manager = JsonStorage("./static/_data/data.json")
