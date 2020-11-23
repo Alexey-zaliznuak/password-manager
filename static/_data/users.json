@@ -18,5 +18,20 @@
         "name": "zabira",
         "password": "z1234",
         "UID": 5
+    },
+    {
+        "name": "alexey-\u0449\u0434\u0449\u0434\u0449\u0443\u043c",
+        "password": "qwertyuiop",
+        "UID": 6
+    },
+    {
+        "name": "alexey-z",
+        "password": "d5H-8dR-mYH-GeT",
+        "UID": 7
+    },
+    {
+        "name": "tarasradio",
+        "password": "QESZCTARASGEwadx123",
+        "UID": 8
     }
 ]

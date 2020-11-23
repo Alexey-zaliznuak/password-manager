@@ -7,18 +7,18 @@ document.addEventListener('click', event => {
 
         let response = fetch(`/get_user_UID?name=${name}&password=${password}`).then(response => response.text()).then(go_to_main_page)
         
-        alert("okkkkk")
-        
         //document.body.children[0].children[0].href = `/main?UID=${UID}`
 
         }
     }
 )
+
 function go_to_main_page(UID) {
     if (UID == "Неверный пароль") {
         alert("Неверный пароль")
     }
     else {
+        alert("Успешно")
         window.open(`/main?UID=${UID}`)
     }
 }
