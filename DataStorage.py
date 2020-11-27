@@ -107,6 +107,21 @@ class JsonStorage():
                         del data[index][index_data]
                 else:
                     print(int(string_data["id"]),int(f_id))
-        self.write(data) 
+        self.write(data)
+    
+    def found_account_UID(data, UID):
+        for index, string in enumerate(data):
+            if string[0]["UID"] == UID:
+                return data[index]
+                break
+        else:
+            print("WARNING")
+            account_manager = JsonStorage("./static/_data/data.json")
+            account_manager.create("new_email", "service_name", "0000000", UID)
+            data = account_manager.get()
+            for index, string in enumerate(data):
+                if string[0]["UID"] == UID:
+                    return data[index]
+
 #ac = JsonStorage("./static/_data/data.json")
 #ac.create("zaliznuak_new","goooooooogle", "qwertyuio", 3)
