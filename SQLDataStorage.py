@@ -2,11 +2,6 @@ import sqlite3
 from random import randint
 from datetime import datetime
 
-#storage.create_table("accounts", "(service TEXT, email TEXT, password TEXT, id INT, date_change TEXT, uid INT)")
-#storage.write("accounts", ('f','g','h','i','g','k'))
-#storage.delete("accounts", "id" , "'i'")
-#storage.get_all_data("accounts"))
-
 class DataStorage():
     def __init__(self, file, table_name):
         self.file = file
@@ -27,33 +22,14 @@ class DataStorage():
 
         return cursor.execute(f"select * from {self.table}").fetchall()
         connect.close()
-    
-    def write(self, email, service, password, UID):
-        connect = sqlite3.connect(str(self.file))
-        cursor = connect.cursor()
-
-        ac_id = self.get_minimal_id()
-        data = (service, email, password, ac_id, self.current_time(), UID)
-
-        cursor.execute(f"INSERT INTO {self.table} VALUES (?,?,?,?,?,?)", data)
-        connect.commit()
-        connect.close()
-
-    def delete(self, UID, id):
-        connect = sqlite3.connect(str(self.file))
-        cursor = connect.cursor()
-
-        cursor.execute(f"DELETE FROM {self.table} WHERE UID = {UID} AND ID = {id}")
-        connect.commit()
-
-    def get_minimal_id(self):
-        return randint(0, 100000)
 
     def current_time(self):
         times = datetime.now()
+
         year = times.year
         month = times.month
         day = times.day
+
         hour = times.hour
         minute = times.minute
         second = times.second
@@ -66,3 +42,92 @@ class DataStorage():
 
         mod_time = f"{year}/{month}/{day}/{hour}/{minute}/{second}"
         return mod_time
+
+class AccountStorage(DataStorage):
+    def write(self, email, service, password, UID):
+        connect = sqlite3.connect(str(self.file))
+        cursor = connect.cursor()
+
+        ac_id = self.get_id()
+        data = (service, email, password, ac_id, self.current_time(), UID)
+
+        cursor.execute(f"INSERT INTO {self.table} VALUES (?,?,?,?,?,?)", data)
+        connect.commit()
+        connect.close()
+
+    def delete(self, ac_id, UID):
+        connect = sqlite3.connect(str(self.file))
+        cursor = connect.cursor()
+
+        cursor.execute(f"DELETE FROM {self.table} WHERE UID = {UID} AND ID = {ac_id}")
+        connect.commit()
+
+    def get_id(self):
+        while True:
+            number = randint(0, 1000000)    
+            connect = sqlite3.connect(str(self.file))
+            cursor = connect.cursor()
+
+            data = cursor.execute(f"select * from {self.table} WHERE id = {number}").fetchall()
+            connect.close()
+            if len(data) == 0:
+                break
+        return number 
+
+    def get_by_UID(self, UID):
+        connect = sqlite3.connect(str(self.file))
+        cursor = connect.cursor()
+
+        return cursor.execute(f"select * from {self.table} WHERE UID = {UID}").fetchall()
+        connect.close()
+
+class UserStorage(DataStorage):
+    def write(self, name, password, telephone):
+        connect = sqlite3.connect(str(self.file))
+        cursor = connect.cursor()
+        
+
+        UID = self.get_UID()
+        data = (name, password, telephone, UID)
+
+        cursor.execute(f"INSERT INTO {self.table} VALUES (?,?,?,?)", data)
+        connect.commit()
+        connect.close()
+
+    def delete(self, UID):
+        connect = sqlite3.connect(str(self.file))
+        cursor = connect.cursor()
+
+        cursor.execute(f"DELETE FROM {self.table} WHERE UID = {UID}")
+        connect.commit()
+
+    def get_UID(self):
+        while True:
+            number = randint(0, 1000000)    
+            connect = sqlite3.connect(str(self.file))
+            cursor = connect.cursor()
+
+            data = cursor.execute(f"select * from {self.table} WHERE UID = {number}").fetchall()
+            connect.close()
+            if len(data) == 0:
+                break
+        return number 
+
+    def get_by_UID(self, userID):
+        connect = sqlite3.connect(str(self.file))
+        cursor = connect.cursor()
+
+        
+        return cursor.execute(f"select * from {self.table} WHERE UID = {userID}").fetchall()
+        connect.close()
+    
+    def get_by_data(self, name, password, telephone):
+        connect = sqlite3.connect(str(self.file))
+        cursor = connect.cursor()
+
+        data = cursor.execute(f"""
+        select UID from {self.table} WHERE name = {name} and password = {password} and telephone = {telephone}""").fetchall()
+
+        connect.close()
+
+        return int(data[0][0])
