@@ -48,10 +48,9 @@ class AccountStorage(DataStorage):
         connect = sqlite3.connect(str(self.file))
         cursor = connect.cursor()
 
-        ac_id = self.get_id()
-        data = (service, email, password, ac_id, self.current_time(), UID)
+        data = f"""INSERT INTO {self.table} (service, email, password, date_change, UID) VALUES ("{service}", "{email}", "{password}", "{self.current_time()}", "{UID}")"""
 
-        cursor.execute(f"INSERT INTO {self.table} VALUES (?,?,?,?,?,?)", data)
+        cursor.execute(data)
         connect.commit()
         connect.close()
 
@@ -86,11 +85,9 @@ class UserStorage(DataStorage):
         connect = sqlite3.connect(str(self.file))
         cursor = connect.cursor()
         
+        data = f"""INSERT INTO {self.table} (name, password, telephone, date_change) VALUES ("{name}", "{password}", "{telephone}", "{self.current_time()}")"""
 
-        UID = self.get_UID()
-        data = (name, password, telephone, UID)
-
-        cursor.execute(f"INSERT INTO {self.table} VALUES (?,?,?,?)", data)
+        cursor.execute(data)
         connect.commit()
         connect.close()
 
@@ -100,18 +97,6 @@ class UserStorage(DataStorage):
 
         cursor.execute(f"DELETE FROM {self.table} WHERE UID = {UID}")
         connect.commit()
-
-    def get_UID(self):
-        while True:
-            number = randint(0, 1000000)    
-            connect = sqlite3.connect(str(self.file))
-            cursor = connect.cursor()
-
-            data = cursor.execute(f"select * from {self.table} WHERE UID = {number}").fetchall()
-            connect.close()
-            if len(data) == 0:
-                break
-        return number 
 
     def get_by_UID(self, userID):
         connect = sqlite3.connect(str(self.file))
