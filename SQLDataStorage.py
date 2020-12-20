@@ -85,11 +85,16 @@ class UserStorage(DataStorage):
         connect = sqlite3.connect(str(self.file))
         cursor = connect.cursor()
         
-        data = f"""INSERT INTO {self.table} (name, password, telephone, date_change) VALUES ("{name}", "{password}", "{telephone}", "{self.current_time()}")"""
-
-        cursor.execute(data)
-        connect.commit()
-        connect.close()
+        data = cursor.execute(f"""
+        select UID from {self.table} WHERE name = '{name}'""").fetchall()
+        if len(data) == 0:
+            data = f"""INSERT INTO {self.table} (name, password, telephone, date_change) VALUES ("{name}", "{password}", "{telephone}", "{self.current_time()}")"""
+            cursor.execute(data)
+            connect.commit()
+            connect.close()
+            return "complete"
+        else: 
+            return "found account with this name"
 
     def delete(self, UID):
         connect = sqlite3.connect(str(self.file))
@@ -106,13 +111,35 @@ class UserStorage(DataStorage):
         return cursor.execute(f"select * from {self.table} WHERE UID = {userID}").fetchall()
         connect.close()
     
-    def get_by_data(self, name, password, telephone):
+    def get_by_data(self, name, password, telephone, create = True):
         connect = sqlite3.connect(str(self.file))
         cursor = connect.cursor()
 
         data = cursor.execute(f"""
-        select UID from {self.table} WHERE name = {name} and password = {password} and telephone = {telephone}""").fetchall()
+        select UID from {self.table} WHERE name = '{name}'""").fetchall()
+        print(data)
+
+        verify_data = cursor.execute(f"""
+        select UID from {self.table} WHERE name = '{name}' and password = '{password}' and telephone = '{telephone}'""").fetchall()
 
         connect.close()
+        if len(data) == 0 and create:
+            print("такого юзера не обнаружено создаём нового...")
+            self.write(name, password, telephone)
+            print("Новый юзер создан.")
+            return self.get_by_data(name, password, telephone)
+        elif len(data) == 0:
+            print("нет аккунта с таким именем")
+            return "NOT HAVE ACCOUNT WITH THIS NAME"
+        elif int(data[0][0]) == 1 and int(verify_data[0][0]) == 1:
+            return int(data[0][0])
+        else:
+            print(f"\nпользователей с таким именем: {data}")
+            print(f"\nпользователей с таким именем паролем и телефоном: {data}")
+            
 
-        return int(data[0][0])
+            return "warning"
+if __name__ == "__main__":
+    m = UserStorage("./static/_data/mydatabase.db", "users")
+    print(m.get())
+    print(m.get_by_data("NikitaAvdosev", "1234", "88005553535"))

@@ -1,31 +1,35 @@
 document.addEventListener('click', event => {
     const element = event.target;
-
+    var UID = document.querySelector(".UID").getAttribute("UID")
+    var ID = document.querySelector(".UID").getAttribute("ID")
+    
+    const is_exit = element.classList.contains('out') || element.classList.contains('out_card')
+    const is_del = element.classList.contains('delete_card') || element.classList.contains('delete')
+    
     const is_icon_view = element.classList.contains('icon')
     const is_copy_icon = element.classList.contains('copy')  
-    const is_del_card = element.classList.contains('delete_card')
-                     || element.classList.contains('delete')
     
     if (is_icon_view) {
         element.classList.toggle('no-view-icon');
         element.classList.toggle('view-icon');
         element.parentNode.classList.toggle('secret-text')
     }
-
+    
     if (is_copy_icon) {
         var data = element.parentNode.parentNode.children[2].children[0].innerHTML
         navigator.clipboard.writeText(data)
         alert("Скопировано!")
-        }   
+    }   
     
-    // if (is_del_card) {
-    //     if (confirm("Choose Yes or Not")) {
-    //         var variable = document.body.children[0].id
-    //         var request = new XMLHttpRequest();
+    if (is_del) {
+        if (confirm("Вы действительно хотите удалить аккаунт?")) {
+            let promise = fetch(`/del_account?UID=${UID}&ID=${ID}`)
+            window.open(`/main?UID=${UID}`)
+        }
+    }
 
-    //         request.open("POST", `/del?id=${variable}`)
-    //         request.send();
-    //         }
-    //     }   
+    if (is_exit) {
+        window.open(`/main?UID=${UID}`)
+        }
     }        
 )
