@@ -67,7 +67,7 @@ def create_account():
     updates_managers()
     account_manager.write(email, service, passsword, UID)
 
-    print(email, service, passsword, user_id)
+    print(email, service, passsword, UID)
     return "Создание аккаунта - успешно"
 
 @app.route("/del_account", methods = ["GET"])

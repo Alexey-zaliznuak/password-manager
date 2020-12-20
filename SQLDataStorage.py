@@ -117,7 +117,6 @@ class UserStorage(DataStorage):
 
         data = cursor.execute(f"""
         select UID from {self.table} WHERE name = '{name}'""").fetchall()
-        print(data)
 
         verify_data = cursor.execute(f"""
         select UID from {self.table} WHERE name = '{name}' and password = '{password}' and telephone = '{telephone}'""").fetchall()
@@ -131,7 +130,7 @@ class UserStorage(DataStorage):
         elif len(data) == 0:
             print("нет аккунта с таким именем")
             return "NOT HAVE ACCOUNT WITH THIS NAME"
-        elif int(data[0][0]) == 1 and int(verify_data[0][0]) == 1:
+        elif int(data[0][0]) == int(verify_data[0][0]):
             return int(data[0][0])
         else:
             print(f"\nпользователей с таким именем: {data}")
