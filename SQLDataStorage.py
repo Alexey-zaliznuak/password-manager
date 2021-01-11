@@ -111,7 +111,7 @@ class UserStorage(DataStorage):
         return cursor.execute(f"select * from {self.table} WHERE UID = {userID}").fetchall()
         connect.close()
     
-    def get_by_data(self, name, password, telephone, create = True):
+    def get_by_data(self, name, password, telephone, create):
         connect = sqlite3.connect(str(self.file))
         cursor = connect.cursor()
 
@@ -122,23 +122,28 @@ class UserStorage(DataStorage):
         select UID from {self.table} WHERE name = '{name}' and password = '{password}' and telephone = '{telephone}'""").fetchall()
 
         connect.close()
-        if len(data) == 0 and create:
-            print("такого юзера не обнаружено создаём нового...")
-            self.write(name, password, telephone)
-            print("Новый юзер создан.")
-            return self.get_by_data(name, password, telephone)
-        elif len(data) == 0:
-            print("нет аккунта с таким именем")
-            return "NOT HAVE ACCOUNT WITH THIS NAME"
-        elif int(data[0][0]) == int(verify_data[0][0]):
-            return int(data[0][0])
+        if create:
+            if len(data) == 0:
+                self.write(name, password, telephone)
+                return self.get_by_data(name, password, telephone, True)
+            elif len(data) != 0:
+                return verify_data[0][0]
         else:
-            print(f"\nпользователей с таким именем: {data}")
-            print(f"\nпользователей с таким именем паролем и телефоном: {data}")
-            
+            if len(verify_data) != 0:
+                return verify_data[0][0]
+            else:
+                if len(data) == 0:
+                    return "Нет аккаунта с таким именем"
+                else:
+                    return "некорректные данные"
 
-            return "warning"
 if __name__ == "__main__":
     m = UserStorage("./static/_data/mydatabase.db", "users")
     print(m.get())
-    print(m.get_by_data("NikitaAvdosev", "1234", "88005553535"))
+    print(m.get_by_data("NikitaAvdosev", "1234", "88005553535", False))
+    for account in m.get():
+        for element in account:
+            if element == '':
+                id_ = account[3]
+                m.delete(id_)
+                break

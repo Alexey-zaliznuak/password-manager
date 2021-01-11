@@ -1,27 +1,46 @@
 <!doctype html >
 <html lang="ru-RU"> 
     <head>
-        <title>main</title>
+        <title>login</title>
         <meta charset="UTF-8" />
         <link rel="stylesheet" type = "text/css" href="/static/css/style.css">
         <script src="/static/js/script.js" defer></script>
     </head>
 <body>
-    <a href = "/create?UID={{UID}}"><div class="create_card">Создать аккаунт</div></a>
-    <div class = "found_card search"><input class = "search" type="text" width="200px"> <input type="button" value = "Искать" class="found_button search"></div>
-    <div class = "menu_variant style_toogle" title = "Изменить компановку"><big><img class="style_toogle" src="/static/images/style-toggle.png" title = "Изменить компановку"></big></div>
-    <p></p>
-    <div class = "account_card_container"> 
-        {% for data in pack_data %}
-            <a href = "/details?service={{data[0]}}&email={{data[1]}}&password={{data[2]}}&id={{data[3]}}&date_changes={{data[4]}}&UID={{data[5]}}">
-                <div class = "account_card card_data card_with_padding">
-                    <div class="account_card_service card_data">{{data[0]}}</div>
-                    <div class="account_card_email card_data">{{data[1]}}</div>
-                    <div class="account_card_password secret-text card_data">
-                        <div class = "card_data password_data">{{data[2]}}</div></a>
-                        <img class="no-view-icon icon icon_with_padding">
-                    </div>
-                </div>     
-        {% endfor %}
+    <div class = "menu">
+        <container>
+            <a href = "/"><span class = "option about bold_text">Главная</span></a>
+            <a href = "/about"><span class = "option about bold_text">О нас</span></a>
+        </container>
+        <div class = " bold_text time">19:30</div>
+    </div>
+    <div class ="info">
+        <img class = "icon">
+        <p>Работаем 24/7</p>
+        <p>Всегда поможем</p>
+        <p>Надёжное шифрование</p>
+        <p>Отзывчивая служба поддержки</p>
+        <p>Полная гарантия конфиденциальности</p>
+        <p>И это далеко не все не пресущие нам качества!</p>
+    </div>
+    <!--<div class ="login_field">
+        <big>Вход</big>
+        <p>Ваш ник:     <input class = "name" type = text></p>
+        <p>Пример: AlexeyProgrammer</p>
+        <p>Ваш пароль:  <input class = "password" type = password></p>
+        <p>Пример: GHict43-22</p>
+        <p>Ваш телефон:  <input class = "telephone" type = "tel"></p>
+        <p class = "telephone_primer" >Пример: 89876543210</p>
+        <input class = "request_button" type = "button" value = "Подтвердить">
+    </div>-->
+
+    <div class = "choose_input">
+        <a href="/login" class = "login">
+            <span class = "input_text bold_text login_button">Вход</span>
+        </a>
+
+        <a href="/registration" style="width: 100%;">
+            <span class = "input_text bold_text registration_button">Регистрация</span>
+        </a>    
     </div>
 </body>

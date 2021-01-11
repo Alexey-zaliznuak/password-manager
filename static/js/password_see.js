@@ -24,12 +24,12 @@ document.addEventListener('click', event => {
     if (is_del) {
         if (confirm("Вы действительно хотите удалить аккаунт?")) {
             let promise = fetch(`/del_account?UID=${UID}&ID=${ID}`)
-            window.open(`/main?UID=${UID}`)
+            window.open(`/passwords?UID=${UID}`)
         }
     }
 
     if (is_exit) {
-        window.open(`/main?UID=${UID}`)
+        window.open(`/passwords?UID=${UID}`)
         }
     }        
 )

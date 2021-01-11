@@ -1,79 +1,169 @@
 :root {
     --background-color: #f6f8fa;
-    --card-color: white;
+    --field-card-color: #0097A7;
+    --prewiew-card-color: rgb(255, 0, 0);
     --card-border-color: #e1e4e8;
+    --dark-blue-color: #0288D1;
 }
 
-html {
-    background-color: var(--background-color);
+html{
+    background-color: rgb(238, 238, 238);
 }
 
-a {
-    text-decoration: none;
-    color: black;
+body {
+    margin-top: 260px;
+}
+h5, big, p {
+    opacity: 1;
 }
 
-.account_card {
+.login_button, .registration_button {
+    transition-duration: 0.4s;
+}
+
+.bold_text, p {
+    margin: 15px 5px;
+    color: rgb(238, 238, 238);
+    font-family: 'Helvetica Neue', sans-serif;
+    font-weight: bold;
+    letter-spacing: -1px;
+    line-height: 1;
+    text-align: center;
+}
+
+p {
+    color: #111;
+}
+.input_text {
+    border-color: #111;
     border-radius: 10px;
-    border-color: var(--card-border-color);
-    background-color: var(--card-color);
-    border-width: 1px;
-    border-style: solid;
-    padding: 20px;
-    margin: 10px;
-    width: auto;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 350px));
-    
-}
-
-.create_card,.found_card,.menu_variant {
-    border-radius: 10px;
-    border-color: var(--card-border-color);
-    background-color: var(--card-color);
-    border-width: 1px;
-    border-style: solid;
-    padding: 10px;
-    margin: 0 10px;
-    display: inline-block;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 350px));
-}
-.account_card_container {
-    display: inline-block;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 350px));
-
+    background-color: rgb(255, 255, 255);
+    font-size: 40px;
+    text-align: center;
+    padding: 7px;
     align-items: center;
-    justify-content: center;
-}
-
-.account_card_password {
-    display: inline-flex;
-    justify-content: space-between;
-    width: 100%;
-}
-
-.icon {
-    width: 20px;
-    height: 20px;
-}
-
-.icon_with_padding {
-    margin-left: 10px;
-}
-
-.view-icon {
-    content: url(/static/images/view.svg);
-}
-
-.no-view-icon {
-    content: url(/static/images/no-view.svg);
-}
-
-
-.secret-text {
-    -webkit-text-security:disc;
-    /* this code not working on firefox */
-}
-
-.card_with_padding {
+    align-content: center;
+    border-style: solid;
+    height: 40px;
     display: inline-block;
+    width: 50%;
+    color: #111;
+}
+
+.option:hover{
+    transition-duration: 0.4s;
+    color: rgb(76, 76, 76);
+    background-color:rgb(238, 238, 238);
+    border-color: rgb(238, 238, 238);
+}
+
+.login_button:hover, .registration_button:hover {
+    transition-duration: 0.4s;
+    color: rgb(238, 238, 238);
+    background-color:#111;
+    border-color: #111;
+}
+.background-field-icon {
+    content: url("/static/images/securety.jpg");
+    opacity: 0.3;
+}
+
+@keyframes rotation {
+    0% {
+        transform:rotate(0deg);
+    }
+    100% {
+        transform:rotate(360deg);
+    }
+}
+
+.choose_input {
+    margin-top: 200px;
+    font-size: 20px;
+    width: 100%;
+    height: auto;
+    display: inline-flex;
+}
+
+.info {
+    align-items: center;
+    border-radius: 20px;
+    border-color: #ffffff;
+    background-color: rgba(255, 255, 255, 1);
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+    background-size: cover;
+    padding: 10px 0;
+    margin-left: 33%;
+    margin-right: 33%;
+    display: block;
+    font-size: 29px;
+    width: 34%;
+    height: auto;
+    margin-top: 100px;
+}
+
+
+.login {
+    text-decoration: none;
+    width: 100%;
+    justify-content: flex-end;
+    display: inline-flex;
+}
+
+.menu {
+    position: fixed;
+    width: 100%;
+    left: 0;
+    top: 0;
+    margin-top: 0;
+    border-color: #111;
+    background-color: rgb(76, 76, 76);
+    justify-content: space-between;
+    display: inline-flex;
+}
+
+.name {
+    width: 223px;
+}
+
+.option {
+    transition-duration: 0.4s;
+    border-color: rgb(238, 238, 238);
+    border-radius: 0px;
+    background-color: rgb(76, 76, 76);
+    font-size: 40px;
+    text-align: center;
+    padding: 7px;
+    align-items: center;
+    align-content: center;
+    border-style: solid;
+    height: 40px;
+    width: 200px;
+    display: inline-block;
+}
+
+.password {
+    width: 201px;
+}
+
+.prewiew_label {
+    color: whitesmoke;
+    font-size: 30px;
+    justify-content: space-between;
+}
+
+.time {
+    width: auto;
+    height: auto;
+    margin: auto 0;
+    margin-right: 20px;
+    background-color: rgb(76, 76, 76);
+    color: rgb(255, 255, 255);
+    font-size: 37px;
+    display: inline-block;
+}
+
+.telephone_primer {
+    margin-block-end: 5px;
 }

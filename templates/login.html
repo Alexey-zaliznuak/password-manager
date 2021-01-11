@@ -1,17 +1,29 @@
-<!doctype html >
-<html lang="ru-RU"> 
-    <head>
-        <title>login</title>
-        <meta charset="UTF-8" />
-        <link rel="stylesheet" type = "text/css" href="/static/css/login.css">
-        <script src="/static/js/login_script.js" defer></script>
-    </head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/login.css">
+    <script src="/static/js/login.js" defer></script>
+    <title>input</title>
+</head>
 <body>
-    <div class ="login_field">
-        <big>Вход или регистрация</big>
+    <div class = "menu">
+        <container>
+            <a href = "/"><span class = "option about bold_text">Главная</span></a>
+            <a href = "/about"><span class = "option about bold_text">О нас</span></a>
+        </container>
+        <div class = "time bold_text">time</div>
+    </div>
+    <div class = "login_field">
+        <big>Вход:</big>
         <p>Ваш ник:     <input class = "name" type = text></p>
+        <p>Пример: AlexeyProgrammer</p>
         <p>Ваш пароль:  <input class = "password" type = password></p>
+        <p>Пример: GHict43-22</p>
         <p>Ваш телефон:  <input class = "telephone" type = "tel"></p>
+        <p class = "telephone_primer" >Пример: 89876543210</p>
         <input class = "request_button" type = "button" value = "Подтвердить">
     </div>
 </body>
+</html>

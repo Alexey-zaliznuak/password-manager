@@ -13,7 +13,7 @@ document.addEventListener('click', event => {
         if (password == double_password) {
             let promise = fetch(`/create_account?UID=${UID}&service=${service}&email=${email}&password=${password}`)
             alert(promise)
-            window.open(`/main?UID=${UID}`)
+            window.open(`/passwords?UID=${UID}`)
             }
         else {
             alert("Пароли не совпадаю!")

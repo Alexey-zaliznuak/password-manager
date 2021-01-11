@@ -2,9 +2,6 @@ import os
 from flask import *
 from time import sleep
 
-import DataStorage 
-import UserStorage 
-
 from SQLDataStorage import *
 app = Flask(__name__)
 
@@ -16,9 +13,13 @@ def add_header(response):
 
 @app.route("/")
 def index():
+    return render_template("index.html")
+
+@app.route("/login")
+def login():
     return render_template("login.html")
 
-@app.route("/main")
+@app.route("/passwords")
 def main():
     account_manager = AccountStorage("./static/_data/mydatabase.db", "accounts")
     account_data = account_manager.get()
@@ -26,17 +27,45 @@ def main():
     users_manager = UserStorage("./static/_data/mydatabase.db", "users")
     users_data = users_manager.get()
 
-    
     UID = request.args['UID']
     if UID == "None":
         name = request.args['name']
         password = request.args['password']
         telephone = request.args['telephone']
-        UID = users_manager.get_by_data(str(name), str(password), str(telephone))
-    
-    data = account_manager.get_by_UID(int(UID))
-    return render_template("index.html", pack_data = data, UID = UID)
-    
+        create = request.args["create"]
+        UID = users_manager.get_by_data(str(name), str(password), str(telephone), bool(int(create)))
+
+    try:
+        UID = int(UID)
+    except:
+        return UID
+    else:    
+        data = account_manager.get_by_UID(int(UID))
+        return render_template("passwords.html", pack_data = data, UID = UID)
+
+@app.route("/find_account")
+def find_account():
+    name = request.args['name']
+    password = request.args['password']
+    telephone = request.args['telephone']
+    create = request.args["create"]
+
+    users_manager = UserStorage("./static/_data/mydatabase.db", "users")
+    users_data = users_manager.get()
+
+    UID = users_manager.get_by_data(str(name), str(password), str(telephone), bool(int(create)))
+    print("Ответ на поиск юзера ==>",UID)
+
+    if type(UID) == str:
+        return UID
+    else:
+        print("Тип ответа ==>",type(UID))
+        return "Успешно"
+
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
 @app.route("/details", methods = ["GET"])
 def details():
     service = request.args['service'] 
