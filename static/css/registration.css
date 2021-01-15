@@ -1,0 +1,118 @@
+:root {
+    --background-color: rgb(238, 238, 238);
+    --field-card-color: #0097A7;
+    --prewiew-card-color: rgb(255, 0, 0);
+    --card-border-color: #e1e4e8;
+    --dark-blue-color: #0288D1;
+}
+
+body {
+    background-color: rgb(238, 238, 238);
+    margin-top: 150px;
+}
+
+p {
+    color: #111;
+}
+
+.login, .registration {
+    transition-duration: 0.4s;
+}
+
+.login_field {
+    border-radius: 10px;
+    border-color: var(--card-border-color);
+    background-color: rgb(76, 76, 76);
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+    background-size: cover;
+    padding: 10px;
+    margin: 10px 25%;
+    color: #ffffff;
+    display: block;
+    font-size: 20px;
+    width: 50%;
+    height: auto;
+}
+
+.menu {
+    position: fixed;
+    width: 100%;
+    left: 0;
+    top: 0;
+    margin-top: 0;
+    border-color: #111;
+    background-color: rgb(76, 76, 76);
+    justify-content: space-between;
+    display: inline-flex;
+}
+
+
+.option {
+    transition-duration: 0.4s;
+    border-color: rgb(238, 238, 238);
+    border-radius: 0px;
+    background-color: rgb(76, 76, 76);
+    font-size: 40px;
+    text-align: center;
+    padding: 7px;
+    align-items: center;
+    align-content: center;
+    border-style: solid;
+    height: 40px;
+    width: 200px;
+    display: inline-block;
+}
+
+.bold_text, .input, p, big {
+    margin: 15px 5px;
+    color: rgb(238, 238, 238);
+    font-family: 'Helvetica Neue', sans-serif;
+    font-weight: bold;
+    letter-spacing: -1px;
+    line-height: 1;
+}
+
+.input {
+    color: #111;
+}
+
+big {
+    font-size: 30px;
+}
+
+.option:hover{
+    transition-duration: 0.4s;
+    color: rgb(76, 76, 76);
+    background-color:rgb(238, 238, 238);
+    border-color: rgb(238, 238, 238);
+}
+
+.login:hover, .registration:hover {
+    transition-duration: 0.4s;
+    color: rgb(238, 238, 238);
+    background-color:#111;
+    border-color: #111;
+}
+
+.time {
+    width: auto;
+    height: auto;
+    margin: auto 0;
+    margin-right: 20px;
+    background-color: rgb(76, 76, 76);
+    color: rgb(255, 255, 255);
+    font-size: 37px;
+    display: inline-block;
+}
+.name {
+    width: 380px;
+}
+
+.password {
+    width: 345px;
+}
+
+.telephone {
+    width: 335px;
+}

@@ -137,6 +137,31 @@ class UserStorage(DataStorage):
                 else:
                     return "некорректные данные"
 
+    def get_registration_permission(self, name, password, telephone):
+        connect = sqlite3.connect(str(self.file))
+        cursor = connect.cursor()
+
+        user_with_telephone = cursor.execute(f"""
+        select UID from {self.table} WHERE telephone = '{telephone}'""").fetchall()
+
+        user_with_name = cursor.execute(f"""
+        select UID from {self.table} WHERE name = '{name}'""").fetchall()
+
+
+        if len(user_with_name) != 0:
+            return "Аккаунт с таким именем существует"
+        
+        if len(user_with_telephone) != 0:
+            return "Аккаунт с таким номером телефона существует"
+
+        if len(name) == 0 or len(telephone) == 0 or len(password) == 0:
+            return "Не заполнены все данные"
+
+        else:
+            return "Успешно"
+
+        connect.close()
+        
 if __name__ == "__main__":
     m = UserStorage("./static/_data/mydatabase.db", "users")
     print(m.get())

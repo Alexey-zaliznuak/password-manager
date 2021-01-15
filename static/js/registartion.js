@@ -7,7 +7,7 @@ document.addEventListener('click', event => {
         var password = document.querySelector(".password").value
         var telephone = document.querySelector(".telephone").value
         
-        password_promice(name, password, telephone)
+        registartion_promice(name, password, telephone)
         }
     }
 )
@@ -28,8 +28,8 @@ function time_update() {
     setTimeout(time_update, 1000)
 }
 
-async function password_promice(name, password, telephone) {
-    let promise = await fetch(`/find_account?name=${name}&password=${password}&telephone=${telephone}&UID=None&create=0`)
+async function registartion_promice(name, password, telephone) {
+    let promise = await fetch(`/registration_permission?name=${name}&password=${password}&telephone=${telephone}&UID=None&create=0`)
     promise = await promise.text()
 
     if (promise != "Успешно") {

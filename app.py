@@ -19,6 +19,26 @@ def index():
 def login():
     return render_template("login.html")
 
+
+@app.route("/registration")
+def registration():
+    return render_template("registration.html")
+
+@app.route("/registration_permission")
+def registration_permission():
+    users_manager = UserStorage("./static/_data/mydatabase.db", "users")
+    
+    name = request.args['name']
+    password = request.args['password']
+    telephone = request.args['telephone']
+    
+    response = users_manager.get_registration_permission(name, password, telephone)
+
+    if response == "Успешно":
+        users_manager.write(name, password, telephone)
+        
+    return response
+    
 @app.route("/passwords")
 def main():
     account_manager = AccountStorage("./static/_data/mydatabase.db", "accounts")
