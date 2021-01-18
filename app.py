@@ -23,11 +23,6 @@ def login():
 
 @app.route("/registration")
 def registration():
-
-    UID = request.args['UID']
-    users_manager = UserStorage("./static/_data/mydatabase.db", "users")
-    name = users_manager.get_name(UID)[0][0]
-
     return render_template("registration.html")
 
 @app.route("/registration_permission")

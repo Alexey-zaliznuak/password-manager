@@ -8,12 +8,20 @@ html{
     background-color: var(--background-color);
 }
 
+big {
+    margin: 10px 5px;
+    color: #ffffff;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-weight: bold;
+    letter-spacing: -1px;
+    line-height: 1;
+}   
 .create_field {
     position: absolute;
     left: 0;
     border-radius: 10px;
-    border-color: var(--card-border-color);
-    background-color: var(--card-color);
+    border-color: rgb(78, 78, 78);
+    background-color: rgb(78, 78, 78);
     border-width: 1px;
     border-style: solid;
     padding: 10px;
@@ -31,13 +39,13 @@ html{
     display: inline-block;
 }
 .email_input {
-    width: 274px;
+    width: 282px;
 }
 
 .password_input {
-    width: 259px;
+    width: 263px;
 }
 
 .password_double_input {
-    width: 180px;
+    width: 176px;
 }
