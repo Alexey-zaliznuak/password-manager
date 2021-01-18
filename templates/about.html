@@ -7,31 +7,95 @@
         <script src="/static/js/password_see.js" defer></script>
     </head>
     <body>
+    <div class = "menu">
+        <style>
+            .option {
+                transition-duration: 0.4s;
+                border-color: rgb(255, 255, 255);
+                border-radius: 0px;
+                background-color: rgb(76, 76, 76);
+                font-size: 40px;
+                color:rgb(255, 255, 255);
+                text-align: center;
+                padding: 7px;
+                margin: 15px 20px;
+                align-items: center;
+                align-content: center;
+                border-style: solid;
+                height: 40px;
+                min-width: 200px;
+                max-width: 300px;
+                display: inline-block;
+            }
+            .menu {
+                position: fixed;
+                width: 100%;
+                max-height: 90px;
+                left: 0;
+                top: 0;
+                margin-top: 0;
+                border-color: #111;
+                padding-left: 60px;
+                background-color: rgb(76, 76, 76);
+                justify-content: space-between;
+                display: inline-flex;
+            }
+            .time {
+                position: absolute;
+                width: auto;
+                height: auto;
+                top: 27px;
+                right: 100px;
+                background-color: var(--grey-color);
+                color: rgb(255, 255, 255);
+                font-size: 37px;
+                display: inline-block;
+            }
+            .menu_text {
+                text-decoration: none;
+                margin: 15px 15px;
+                color: rgb(255, 255, 255);
+                font-family: 'Helvetica Neue', sans-serif;
+                font-weight: bold;
+                letter-spacing: -1px;
+                line-height: 1;   
+            }
+            .option:hover{
+                    transition-duration: 0.4s;
+                    color: rgb(76, 76, 76);
+                    background-color: rgb(255, 255, 255);
+                    border-color:  rgb(255, 255, 255);
+                }  
+        </style>
+        <container>
+            <a href = "/"><span class = "option menu_text">Главная</span></a>
+            <a href = "/about?"><span class = "option menu_text">О нас</span></a>
         <div class ="field dop">
-            <p>Работаем 24/7</p>
-            <p>Всегда поможем</p>
-            <p>Надёжное шифрование</p>
+            <p>Работаем 1000/60/60/24/7/31/365</p>
+            <p>Всегда поможем в случае проблемы</p>
+            <p>Надёжное шифрование данных</p>
             <p>Отзывчивая служба поддержки</p>
             <p>Полная гарантия конфиденциальности</p>
             <p>И это далеко не все не пресущие нам качества!</p>
         </div>
-        <div class ="field dop">
-            <p>В ролях</p>
-            <p>Всегда поможем</p>
-            <p>Надёжное шифрование</p>
-            <p>Отзывчивая служба поддержки</p>
-            <p>Полная гарантия конфиденциальности</p>
-            <p>И это далеко не все не пресущие нам качества!</p>
-        </div>
+        <div class ="field dop dop_two">
+            <p class = "roles">Разрабы:</p>
+                <pre>   Зализняк Алексей</pre>
+            <p class = "roles">Помогали:</p>
+                <pre>   Никита Авдосев</pre>
+                <pre>   Павел Тарасов</pre>
+            <p class = "roles">Работа с презентацией:</pre>
+                <pre>   Алексей Зализняк</pre>
+                <pre>   Елена Залзняк</pre>
     </body>
 </html>
 <style>
     html {
-        background-color: #eeeeee;
+        background-color: rgb(228, 228, 228);
         height: 100%;
     }
     .dop {
-        align-items: center;
+        position: absolute;
         border-radius: 20px;
         border-color: var(--card-border-color);
         background-color: rgba(255, 255, 255, 0.5);
@@ -39,14 +103,20 @@
         background-position: 0px 0px;
         background-size: cover;
         padding: 10px;
-        margin: 0% 25%;
-        display: block;
+        top: 120px;
+        left: 20px;
+        display: inline-block;
         font-size: 20px;
-        width: 420px;
-        height: 500px;
-        margin-top: 50px;
+        width: 40%;
+        height: 400px;
+        margin-top: 10px;
     }
-    p {
+
+    .dop_two {
+        left: 49%
+    }
+
+    p, pre {
         color: #111;
         font-family: 'Helvetica Neue', sans-serif;
         font-size: 25px;
@@ -56,4 +126,7 @@
         text-align: center;
     }
 
+    .roles, pre {
+        text-align: initial;
+    }
 </style>

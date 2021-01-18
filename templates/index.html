@@ -9,8 +9,8 @@
 <body>
     <div class = "menu">
         <container>
-            <a href = "/"><span class = "option about bold_text">Главная</span></a>
-            <a href = "/about"><span class = "option about bold_text">О нас</span></a>
+            <a href = "/"><span class = "option about menu_text">Главная</span></a>
+            <a href = "/about"><span class = "option about menu_text">О нас</span></a>
         </container>
         <div class = " bold_text time">19:30</div>
     </div>
@@ -35,11 +35,11 @@
     </div>-->
 
     <div class = "choose_input">
-        <a href="/login" class = "login">
+        <a href="/login?UID={{UID}}" class = "login">
             <span class = "input_text bold_text login_button">Вход</span>
         </a>
 
-        <a href="/registration" style="width: 100%;">
+        <a href="/registration?UID={{UID}}" style="width: 100%;">
             <span class = "input_text bold_text registration_button">Регистрация</span>
         </a>    
     </div>

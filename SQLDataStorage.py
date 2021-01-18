@@ -111,6 +111,14 @@ class UserStorage(DataStorage):
         return cursor.execute(f"select * from {self.table} WHERE UID = {userID}").fetchall()
         connect.close()
     
+    def get_name(self, userID):
+        connect = sqlite3.connect(str(self.file))
+        cursor = connect.cursor()
+
+        
+        return cursor.execute(f"select name from {self.table} WHERE UID = {userID}").fetchall()
+        connect.close()
+
     def get_by_data(self, name, password, telephone, create):
         connect = sqlite3.connect(str(self.file))
         cursor = connect.cursor()
@@ -161,14 +169,3 @@ class UserStorage(DataStorage):
             return "Успешно"
 
         connect.close()
-        
-if __name__ == "__main__":
-    m = UserStorage("./static/_data/mydatabase.db", "users")
-    print(m.get())
-    print(m.get_by_data("NikitaAvdosev", "1234", "88005553535", False))
-    for account in m.get():
-        for element in account:
-            if element == '':
-                id_ = account[3]
-                m.delete(id_)
-                break

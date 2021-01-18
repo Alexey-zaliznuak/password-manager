@@ -1,8 +1,10 @@
 import os
-from flask import *
-from time import sleep
+import avatars
 
+from time import sleep
+from flask import render_template, Flask, request
 from SQLDataStorage import *
+
 app = Flask(__name__)
 
 @app.after_request
@@ -19,9 +21,13 @@ def index():
 def login():
     return render_template("login.html")
 
-
 @app.route("/registration")
 def registration():
+
+    UID = request.args['UID']
+    users_manager = UserStorage("./static/_data/mydatabase.db", "users")
+    name = users_manager.get_name(UID)[0][0]
+
     return render_template("registration.html")
 
 @app.route("/registration_permission")
@@ -36,9 +42,12 @@ def registration_permission():
 
     if response == "Успешно":
         users_manager.write(name, password, telephone)
-        
+        avatars.generate(name, 12, 50, True, f"{name}.png")
+
+        os.replace(f"{name}.png", f"./static/avatars/{name}.png")
+
     return response
-    
+
 @app.route("/passwords")
 def main():
     account_manager = AccountStorage("./static/_data/mydatabase.db", "accounts")
@@ -59,9 +68,10 @@ def main():
         UID = int(UID)
     except:
         return UID
-    else:    
+    else:
+        name = users_manager.get_name(UID)[0][0]
         data = account_manager.get_by_UID(int(UID))
-        return render_template("passwords.html", pack_data = data, UID = UID)
+        return render_template("passwords.html", pack_data = data, UID = UID, name = name)
 
 @app.route("/find_account")
 def find_account():
@@ -88,23 +98,29 @@ def about():
 
 @app.route("/details", methods = ["GET"])
 def details():
+    UID = request.args['UID'] 
+    users_manager = UserStorage("./static/_data/mydatabase.db", "users")
+    name = users_manager.get_name(UID)[0][0]
+
     service = request.args['service'] 
     email = request.args['email'] 
     password = request.args['password'] 
     ac_id = request.args['id'] 
     date_changes = request.args['date_changes'] 
-    UID = request.args['UID'] 
 
     #print(f"SERVICE={service}, EMAIL={email}, PASSWORD={password}, ID={ac_id},DATE = {date_changes}, {UID}")
 
 
     data = [service,email,password,ac_id,date_changes,UID]
-    return render_template("password_see.html", data = data)
+    return render_template("password_see.html", data = data, name = name)
 
 @app.route("/create", methods = ["GET"])
 def create_page():
     user_id = request.args['UID'] 
-    return render_template("create_page.html", UID = user_id)
+    users_manager = UserStorage("./static/_data/mydatabase.db", "users")
+    name = users_manager.get_name(user_id)[0][0]
+
+    return render_template("create_page.html", UID = user_id, name = name)
 
 @app.route("/create_account", methods = ["GET"])
 def create_account():

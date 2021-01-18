@@ -7,7 +7,7 @@
 }
 
 html{
-    background-color: rgb(238, 238, 238);
+    background-color: rgb(228, 228, 228);
 }
 
 body {
@@ -23,7 +23,7 @@ h5, big, p {
 
 .bold_text, p {
     margin: 15px 5px;
-    color: rgb(238, 238, 238);
+    color: rgb(228, 228, 228);
     font-family: 'Helvetica Neue', sans-serif;
     font-weight: bold;
     letter-spacing: -1px;
@@ -34,6 +34,15 @@ h5, big, p {
 p {
     color: #111;
 }
+.menu_text{
+    margin: 10px 5px;
+    color: rgb(255, 255, 255);
+    font-family: 'Helvetica Neue', sans-serif;
+    font-weight: bold;
+    letter-spacing: -1px;
+    line-height: 1;
+}
+
 .input_text {
     border-color: #111;
     border-radius: 10px;
@@ -73,13 +82,13 @@ p {
 .option:hover{
     transition-duration: 0.4s;
     color: rgb(76, 76, 76);
-    background-color:rgb(238, 238, 238);
-    border-color: rgb(238, 238, 238);
+    background-color:rgb(228, 228, 228);
+    border-color: rgb(228, 228, 228);
 }
 
 .login_button:hover, .registration_button:hover {
     transition-duration: 0.4s;
-    color: rgb(238, 238, 238);
+    color: rgb(228, 228, 228);
     background-color:#111;
     border-color: #111;
 }
@@ -141,7 +150,7 @@ p {
 
 .option {
     transition-duration: 0.4s;
-    border-color: rgb(238, 238, 238);
+    border-color: rgb(228, 228, 228);
     border-radius: 0px;
     background-color: rgb(76, 76, 76);
     font-size: 40px;
