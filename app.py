@@ -1,5 +1,6 @@
 import os
 import avatars
+from uuid import UUID
 
 from time import sleep
 from flask import render_template, Flask, request
@@ -109,13 +110,21 @@ def details():
     data = [service,email,password,ac_id,date_changes,UID]
     return render_template("password_see.html", data = data, name = name)
 
-@app.route("/create", methods = ["GET"])
+@app.route("/create_password", methods = ["GET"])
 def create_page():
     user_id = request.args['UID'] 
     users_manager = UserStorage("./static/_data/mydatabase.db", "users")
     name = users_manager.get_name(user_id)[0][0]
 
     return render_template("create_page.html", UID = user_id, name = name)
+
+@app.route('/choose_file')
+def create_file():
+    UID = request.args['UID'] 
+    users_manager = UserStorage("./static/_data/mydatabase.db", "users")
+    name = users_manager.get_name(UID)[0][0]
+
+    return render_template("choose_file.html", UID = UID, name = name)
 
 @app.route("/create_account", methods = ["GET"])
 def create_account():
