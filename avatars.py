@@ -20,7 +20,7 @@ def generate_bin_combination(_bin, avatar_size, block_size):
         combination += new_num
     return combination[:(avatar_size // block_size * (avatar_size // block_size))//2]
 
-def generate(string:str, blocks:int, block_size:int, paddings:int, f = None):
+def generate(string:str, blocks:int, block_size:int, paddings:int, f:str):
     print("appen")
     background_color = '#f1f1f1'
     main_color = (tuple(channel // 2 + 128 for channel in hashlib.md5(string.encode('utf-8')).digest()[:3]))

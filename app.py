@@ -1,12 +1,30 @@
 import os
 import avatars
-from uuid import UUID
+import sqlite3
 
 from time import sleep
 from flask import render_template, Flask, request
-from SQLDataStorage import *
+
+from database.AccountStorage import AccountStorage
+from database.UserStorage import UserStorage
+from database.FolderStorage import FolderStorage
+from database.FileStorage import FileStorage
 
 app = Flask(__name__)
+db_path = './database/_data/mydatabase.db'
+
+global account_manager
+account_manager = AccountStorage(db_path, "accounts")
+
+global users_manager
+users_manager = UserStorage(db_path, "users")
+print(users_manager.get())
+
+global folders_manager
+users_manager = UserStorage(db_path, "folders")
+
+global files_manager
+users_manager = UserStorage(db_path, "files")
 
 @app.after_request
 def add_header(response):
@@ -28,8 +46,7 @@ def registration():
 
 @app.route("/registration_permission")
 def registration_permission():
-    users_manager = UserStorage("./static/_data/mydatabase.db", "users")
-    
+   
     name = request.args['name']
     password = request.args['password']
     telephone = request.args['telephone']
@@ -42,16 +59,8 @@ def registration_permission():
 
         os.replace(f"{name}.png", f"./static/avatars/{name}.png")
 
-    return response
-
 @app.route("/passwords")
 def main():
-    account_manager = AccountStorage("./static/_data/mydatabase.db", "accounts")
-    account_data = account_manager.get()
-
-    users_manager = UserStorage("./static/_data/mydatabase.db", "users")
-    users_data = users_manager.get()
-
     UID = request.args['UID']
     if UID == "None":
         name = request.args['name']
@@ -68,6 +77,7 @@ def main():
         name = users_manager.get_name(UID)[0][0]
         data = account_manager.get_by_UID(int(UID))
         return render_template("passwords.html", pack_data = data, UID = UID, name = name)
+    return response
 
 @app.route("/find_account")
 def find_account():
@@ -75,9 +85,6 @@ def find_account():
     password = request.args['password']
     telephone = request.args['telephone']
     create = request.args["create"]
-
-    users_manager = UserStorage("./static/_data/mydatabase.db", "users")
-    users_data = users_manager.get()
 
     UID = users_manager.get_by_data(str(name), str(password), str(telephone), bool(int(create)))
     print("Ответ на поиск юзера ==>",UID)
@@ -113,7 +120,6 @@ def details():
 @app.route("/create_password", methods = ["GET"])
 def create_page():
     user_id = request.args['UID'] 
-    users_manager = UserStorage("./static/_data/mydatabase.db", "users")
     name = users_manager.get_name(user_id)[0][0]
 
     return render_template("create_page.html", UID = user_id, name = name)
@@ -121,7 +127,6 @@ def create_page():
 @app.route('/choose_file')
 def create_file():
     UID = request.args['UID'] 
-    users_manager = UserStorage("./static/_data/mydatabase.db", "users")
     name = users_manager.get_name(UID)[0][0]
 
     return render_template("choose_file.html", UID = UID, name = name)
@@ -132,8 +137,7 @@ def create_account():
     service = request.args['service'] 
     passsword = request.args['password'] 
     email = request.args['email'] 
-
-    updates_managers()
+    
     account_manager.write(email, service, passsword, UID)
 
     print(email, service, passsword, UID)
@@ -141,23 +145,11 @@ def create_account():
 
 @app.route("/del_account", methods = ["GET"])
 def delete_account():
-    updates_managers()
     account_id = request.args['ID'] 
     user_id = request.args['UID'] 
     account_manager.delete(account_id, user_id)
     print(int(user_id),int(account_id))
     return "succesful"
 
-def updates_managers():
-    global account_data, account_manager
-    account_manager = AccountStorage("./static/_data/mydatabase.db", "accounts")
-    account_data = account_manager.get()
-
-    global users_data, users_manager
-    users_manager = UserStorage("./static/_data/mydatabase.db", "users")
-    users_data = users_manager.get()
-
-
 if __name__ == "__main__":
-    updates_managers()
     app.run(debug = True)
