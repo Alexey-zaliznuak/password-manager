@@ -7,7 +7,7 @@ class AccountStorage():
         connect = sqlite3.connect(str(self.file))
         cursor = connect.cursor()
 
-        data = f"""INSERT INTO {self.table} (service, email, password, date_change, UID) VALUES ("{service}", "{email}", "{password}", "{self.current_time()}", "{UID}")"""
+        data = f"""INSERT INTO {self.table} (service, email, password, date_change, UID) VALUES ("{service}", "{email}", "{password}", "{current_time(self)}", "{UID}")"""
 
         cursor.execute(data)
         connect.commit()

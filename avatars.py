@@ -41,7 +41,6 @@ def generate(string:str, blocks:int, block_size:int, paddings:int, f:str):
                 need_to_paint = need_color[x // block_size, y // block_size]
             except:
                 pass
-
             if need_to_paint and x > block_size * paddings and y > block_size * paddings and y < avatar_size - block_size * paddings and x < avatar_size - block_size * paddings:
                 draw.point((x, y), main_color)
     if f is not None:

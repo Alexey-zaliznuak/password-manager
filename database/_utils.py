@@ -3,6 +3,7 @@ from uuid import uuid1
 from datetime import datetime
 
 def init(this, file, table_name):
+    print(str(file))
     this.file = file
     this.table = table_name
     connect = sqlite3.connect(str(file))

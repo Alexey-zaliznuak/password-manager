@@ -10,7 +10,7 @@ class UserStorage():
         data = cursor.execute(f"""
         select UID from {self.table} WHERE name = '{name}'""").fetchall()
         if len(data) == 0:
-            data = f"""INSERT INTO {self.table} (name, password, telephone, date_change) VALUES ("{name}", "{password}", "{telephone}", "{self.current_time()}")"""
+            data = f"""INSERT INTO {self.table} (name, password, telephone, date_change) VALUES ("{name}", "{password}", "{telephone}", "{current_time(self)}")"""
             cursor.execute(data)
             connect.commit()
             connect.close()
@@ -102,3 +102,4 @@ class UserStorage():
         else:
             return "Успешно"
         connect.close()
+#m = UserStorage("./database/_data/mydatabase.db", "users").write("Admin", "65444", "00000000000")

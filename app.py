@@ -13,18 +13,17 @@ from database.FileStorage import FileStorage
 app = Flask(__name__)
 db_path = './database/_data/mydatabase.db'
 
-global account_manager
+#global account_manager
 account_manager = AccountStorage(db_path, "accounts")
 
-global users_manager
+#global users_manager
 users_manager = UserStorage(db_path, "users")
-print(users_manager.get())
 
-global folders_manager
-users_manager = UserStorage(db_path, "folders")
+#global folders_manager
+folders_manager = FolderStorage(db_path, "folders")
 
-global files_manager
-users_manager = UserStorage(db_path, "files")
+#global files_manager
+file_manager = FileStorage(db_path, "files")
 
 @app.after_request
 def add_header(response):
@@ -46,11 +45,9 @@ def registration():
 
 @app.route("/registration_permission")
 def registration_permission():
-   
     name = request.args['name']
     password = request.args['password']
     telephone = request.args['telephone']
-    
     response = users_manager.get_registration_permission(name, password, telephone)
 
     if response == "Успешно":
@@ -58,6 +55,7 @@ def registration_permission():
         avatars.generate(name, 12, 50, True, f"{name}.png")
 
         os.replace(f"{name}.png", f"./static/avatars/{name}.png")
+    return response
 
 @app.route("/passwords")
 def main():
@@ -77,7 +75,6 @@ def main():
         name = users_manager.get_name(UID)[0][0]
         data = account_manager.get_by_UID(int(UID))
         return render_template("passwords.html", pack_data = data, UID = UID, name = name)
-    return response
 
 @app.route("/find_account")
 def find_account():
@@ -102,7 +99,6 @@ def about():
 @app.route("/details", methods = ["GET"])
 def details():
     UID = request.args['UID'] 
-    users_manager = UserStorage("./static/_data/mydatabase.db", "users")
     name = users_manager.get_name(UID)[0][0]
 
     service = request.args['service'] 
@@ -129,7 +125,13 @@ def create_file():
     UID = request.args['UID'] 
     name = users_manager.get_name(UID)[0][0]
 
-    return render_template("choose_file.html", UID = UID, name = name)
+    return render_template("load_file.html", UID = UID, name = name)
+
+@app.route('/load_file/', methods = ["POST"])
+def load_file():
+    content = request
+    print("контент", content)
+    return " "
 
 @app.route("/create_account", methods = ["GET"])
 def create_account():
@@ -137,10 +139,7 @@ def create_account():
     service = request.args['service'] 
     passsword = request.args['password'] 
     email = request.args['email'] 
-    
     account_manager.write(email, service, passsword, UID)
-
-    print(email, service, passsword, UID)
     return "Создание аккаунта - успешно"
 
 @app.route("/del_account", methods = ["GET"])
@@ -148,7 +147,7 @@ def delete_account():
     account_id = request.args['ID'] 
     user_id = request.args['UID'] 
     account_manager.delete(account_id, user_id)
-    print(int(user_id),int(account_id))
+
     return "succesful"
 
 if __name__ == "__main__":
