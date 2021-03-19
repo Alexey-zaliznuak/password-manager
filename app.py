@@ -1,6 +1,8 @@
 import os
+import re
 import avatars
 import sqlite3
+import werkzeug
 
 from time import sleep
 from flask import render_template, Flask, request
@@ -8,7 +10,7 @@ from flask import render_template, Flask, request
 from database.AccountStorage import AccountStorage
 from database.UserStorage import UserStorage
 from database.FolderStorage import FolderStorage
-from database.FileStorage import FileStorage
+from database.FileStorage import FileStorage as fileStorage
 
 app = Flask(__name__)
 db_path = './database/_data/mydatabase.db'
@@ -23,7 +25,7 @@ users_manager = UserStorage(db_path, "users")
 folders_manager = FolderStorage(db_path, "folders")
 
 #global files_manager
-file_manager = FileStorage(db_path, "files")
+file_manager = fileStorage(db_path, "files")
 
 @app.after_request
 def add_header(response):
@@ -110,8 +112,8 @@ def details():
     #print(f"SERVICE={service}, EMAIL={email}, PASSWORD={password}, ID={ac_id},DATE = {date_changes}, {UID}")
 
 
-    data = [service,email,password,ac_id,date_changes,UID]
-    return render_template("password_see.html", data = data, name = name)
+    data = [service,email,password,ac_id,date_changes, UID]
+    return render_template("password_see.html", data = data, name = name, UID = UID)
 
 @app.route("/create_password", methods = ["GET"])
 def create_page():
@@ -127,11 +129,25 @@ def create_file():
 
     return render_template("load_file.html", UID = UID, name = name)
 
-@app.route('/load_file/', methods = ["POST"])
+@app.route('/load_file', methods = ["POST"])
 def load_file():
-    content = request
-    print("контент", content)
-    return " "
+    UID = request.args['UID'] 
+    file = dict(request.files)["file"]
+    pattern = r"'.{0,}\.[^/]{0,}\b'"  
+    name = re.findall(pattern, str(file), flags=re.IGNORECASE)[0][1:-1]
+    path = f"./data/users_files/{UID}"
+
+    if os.path.isdir(path):
+        f = open(f"{path}/{str(name)}", "w+")
+        f.close()
+    else:
+        os.mkdir(path)
+        f = open(f"{path}/{str(name)}", "w+")
+        f.close()
+
+    file.save(f"{path}/{name}")
+    
+    return "200"
 
 @app.route("/create_account", methods = ["GET"])
 def create_account():
@@ -141,6 +157,24 @@ def create_account():
     email = request.args['email'] 
     account_manager.write(email, service, passsword, UID)
     return "Создание аккаунта - успешно"
+
+@app.route("/update_account_page", methods = ["GET"])
+def update_account_page():
+    UID = request.args['UID'] 
+    name = request.args['name'] 
+    id_ = request.args['id'] 
+    return render_template("update_password.html", name = name, id_ = id_, UID = UID)
+
+@app.route("/update_account", methods = ["GET"])
+def update_account():
+    UID = request.args['UID'] 
+    ac_id = request.args['id'] 
+    service = request.args['service'] 
+    password = request.args['password'] 
+    email = request.args['email'] 
+    print(service, email, password, ac_id, UID)
+    account_manager.update(service, email, password, ac_id, UID)
+    return "обновлено - успешно"
 
 @app.route("/del_account", methods = ["GET"])
 def delete_account():

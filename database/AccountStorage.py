@@ -19,6 +19,15 @@ class AccountStorage():
 
         cursor.execute(f"DELETE FROM {self.table} WHERE UID = {UID} AND ID = {ac_id}")
         connect.commit()
+    
+    
+    def update(self, service, email, password, ac_id, UID):
+        connect = sqlite3.connect(str(self.file))
+        cursor = connect.cursor()
+
+        exe = f"""UPDATE {self.table} SET service = '{service}', email = '{email}', password = '{password}', date_change = '{current_time(self)}' WHERE UID = {UID} AND id = {ac_id}"""
+        cursor.execute(exe)
+        connect.commit()
 
     def get_by_UID(self, UID):
         connect = sqlite3.connect(str(self.file))
